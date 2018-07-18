@@ -1,0 +1,12 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    {% for i in user %}
+        <issue class="media content-section">
+          <div class="media-body">
+             <a class="mr-2" href="#">  {{ i.FirstName + i.LastName }} </a>
+            <p class="account-content">{{ i.email }}</p>
+          </div>
+        </issue>
+    {% endfor %}
+{% endblock content %}
