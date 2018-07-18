@@ -23,7 +23,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    Description = db.Column(db.Text, nullable=False)
+    Description = db.Column(db.String(100), nullable=False)
     AssignedTo = db.Column(db.Integer, nullable=False)
     Createdby= db.Column(db.Integer, db.ForeignKey('user.AccessToken'), nullable=False)
     Status = db.Column(db.Boolean,default=True)

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
-
+from issuetracker import db
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -24,3 +24,17 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class PostIssueForm(FlaskForm):
+    Title = StringField('Title',
+                            validators = [ DataRequired(), Length(min=2, max=100)])
+    Description = StringField('Description',
+                            validators = [ DataRequired() ])
+    AssignedTo = StringField('AssignedTo', 
+                            validators = [ DataRequired() ])
+    Createdby = StringField('Createdby',
+                            validators = [ DataRequired() ])
+    Status = BooleanField('Open Status' , default= True)
+    submit = SubmitField('Post')
+
