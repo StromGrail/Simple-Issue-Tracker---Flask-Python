@@ -1,1 +1,2 @@
-# Flask_Tutorial
+# Simple Issue Tracker
+
