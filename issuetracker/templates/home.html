@@ -17,15 +17,34 @@
 	    {% for i in user %}
 	        <issue class="media content-section">
 	          <div class="media-body">
-	             <a class="mr-2" href="#">  {{ i.FirstName + " "+i.LastName }} </a>
+	             <a class="mr-2" href="#">  {{ i.FirstName +" "+ i.LastName }} </a>
 	            <p class="account-content">emailid - {{ i.email }}</p>
 	            <p>username - {{ i.username }}</p>
-	            {% if userdetails.username == i.username %}
+	           	{% for p in post %}
+	           		{% if p.Createdby == i.username %}
+	           			<a class="article-title" href="{{ url_for('post',post_id=p.id)}}">Title - {{p.title}}</a>
+	           			<p>Description - {{p.Description}}</br> Assigned to - 
+	           			{{ p.AssignedTo}}</br>
+	           			Status - 
+	           			{% if p.Status == True %}
+	           				Open
+	           			{% else %}
+	           				Close
+	           			{% endif %}&emsp;&emsp;&emsp;&emsp;&emsp;
+	           			Posted on -{{p.date_posted.date()}} 
+	           			
+	           		{% if userdetails.username == i.username %}
+	           		</br>
+
 	            <small class="text-muted">
-            		<a class="ml-2" href="#">update</a>
-            		<a class="ml-2" href="#">delete</a>
-        		</small>
+            		<a class="ml-2" href="{{ url_for('post',post_id=p.id)}}">edit</a>
+        		</small><br />
+
         		{% endif %}
+        		<hr>
+	           		{% endif %}
+	           	{% endfor %}
+	            
 	          </div>
 	        </issue>
 	    {% endfor %}

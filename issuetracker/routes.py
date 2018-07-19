@@ -5,17 +5,17 @@ from issuetracker.models import User, Post
 
 userdetails = None
 
-
 @app.route("/")
 @app.route("/home")
 def home():
     global userdetails
     user = User.query.all()
+    post = Post.query.all()
     userdetails
     for u in user :
         if u.email == userdetails:
             userdetails=u
-    return render_template('home.html', user=user,userdetails=userdetails)
+    return render_template('home.html', user=user,userdetails=userdetails,post=post)
 
 
 
@@ -67,7 +67,7 @@ def postissue():
         flag,username ,checkname = False,'',form.AssignedTo.data 
         print(checkname)
         for u in user:
-            if u.email== userdetails.email:
+            if u.email == userdetails.email:
                 username=u.username
 
         for u in user:
@@ -75,9 +75,9 @@ def postissue():
                 flag=True
 
         if flag==True:
-            print('debug 1')
+            print('debug 1',form.Status.data)
             post = Post(title = form.Title.data, Description = form.Description.data, 
-                AssignedTo = form.AssignedTo.data , Createdby = username, Status = form.Status.data)
+                AssignedTo = form.AssignedTo.data , Createdby = userdetails.username, Status = form.Status.data)
             db.session.add(post)
             db.session.commit()
             flash('You post has been created !', 'success')
@@ -91,3 +91,37 @@ def postissue():
         return redirect(url_for('login'))  
 
     return render_template('issue.html',title= 'New Issue', userdetails=userdetails , form= form)
+
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post=Post.query.get_or_404(post_id)
+    return render_template('post.html',title=post.title,post=post,userdetails=userdetails)
+
+@app.route("/post/<int:post_id>/update",methods=['GET' ,'Post'])
+def update_post(post_id):
+    post=Post.query.get_or_404(post_id)
+    #print(post.title,post.Description,post_id,post.id)
+    form=PostIssueForm()
+    if form.validate_on_submit():
+        post.title=form.Title.data
+        post.Description=form.Description.data
+        post.Createdby=form.Createdby.data
+        post.AssignedTo = form.AssignedTo.data
+        db.session.commit()
+        flash('Post updated! ', 'success')
+        return redirect(url_for('post',post_id=post_id))
+    elif request.method == 'GET':
+        form.Title.data = post.title
+        form.Description.data = post.Description
+        form.Createdby.data = post.Createdby
+        form.AssignedTo.data = post.AssignedTo
+        return render_template('issue.html',title=post.title,post=post,userdetails=userdetails,form=form)
+
+@app.route("/post/<int:post_id>/delete", methods=['GET','POST'])
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))

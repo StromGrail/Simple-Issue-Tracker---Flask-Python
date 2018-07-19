@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content_1 %}          
+    {% if userdetails == None %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+    {% else %}   
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+	<issue class="media content-section">
+	    <div class="media-body">
+	        <p class="mr-2" >
+				<p>Title - {{post.title}}</p>
+				<p>Description - {{post.Description}}</br> Assigned to - 
+	           			{{ post.AssignedTo}}</br>posted on -{{post.date_posted}}</p>
+			</p>
+			{% if userdetails != None %}
+			<small class="text-muted">
+            		<a class="ml-2" href="{{url_for('update_post',post_id=post.id)}}">update</a>
+            		<a class="ml-2" href="{{url_for('delete_post',post_id=post.id)}}" >delete</a>
+        		</small><br />
+        	{% endif %}
+		</div>
+
+	</issue>
+
+{% endblock content %}

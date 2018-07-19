@@ -14,7 +14,7 @@ class User(db.Model):
     posts = db.relationship('Post',  lazy=True)
 
     def __repr__(self):
-        return "User('{}', '{}',)".format(self.username,self.email)
+        return "User('{}', '{}','{}')".format(self.username,self.email,self.AccessToken)
 
 '''Title, Description, AssignedTo (User relation), 
 Createdby (User relation), Status (Open, Closed) '''
@@ -24,9 +24,9 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     Description = db.Column(db.String(100), nullable=False)
-    AssignedTo = db.Column(db.Integer, nullable=False)
+    AssignedTo = db.Column(db.String(20), nullable=False)
     Createdby= db.Column(db.Integer, db.ForeignKey('user.AccessToken'), nullable=False)
     Status = db.Column(db.Boolean,default=True)
 
     def __repr__(self):
-    	return "Post('{}', '{}')".format(self.title,self.date_posted)
+    	return "Post('{}','{}', '{}','{}','{}','{}')".format(self.id,self.title,self.date_posted,self.Createdby,self.AssignedTo,self.date_posted)
