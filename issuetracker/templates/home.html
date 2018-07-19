@@ -1,20 +1,31 @@
-
 {% extends "layout.html" %}
+
+{% block content_1 %}          
+    {% if userdetails == None %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+    {% else %}   
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-	{% if userinfo %}
-		<issue class="media content-section">
-	          <div class="media-body">
-	             <a class="mr-2" href="#"> Currently logged in {{ userinfo.FirstName +" "+ userinfo.LastName }} </a>
-	             <p> username - {{ userinfo.username }}</p>
-	           </div>
-	    </issue>
-	    {% endif %}
 	    {% for i in user %}
 	        <issue class="media content-section">
 	          <div class="media-body">
 	             <a class="mr-2" href="#">  {{ i.FirstName + " "+i.LastName }} </a>
 	            <p class="account-content">emailid - {{ i.email }}</p>
 	            <p>username - {{ i.username }}</p>
+	            {% if userdetails.username == i.username %}
+	            <small class="text-muted">
+            		<a class="ml-2" href="#">update</a>
+            		<a class="ml-2" href="#">delete</a>
+        		</small>
+        		{% endif %}
 	          </div>
 	        </issue>
 	    {% endfor %}

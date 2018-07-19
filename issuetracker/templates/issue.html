@@ -1,4 +1,16 @@
 {% extends "layout.html" %}
+{% block content_1 %}          
+    {% if userdetails == None %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+    {% else %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
+        </div>
+    {% endif %}
+{% endblock %}
 {% block content %}
     <div class="content-section">
         <form method="POST" action="{{ url_for('postissue') }}">
