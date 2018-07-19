@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content_1 %}          
+    {% if userdetails == None %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+    {% else %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{ title}}</legend>
+                <div class="form-group">
+                    {{ form.Title.label(class="form-control-label") }}
+                    {% if form.Title.errors %}
+                        {{ form.Title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.Title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.Title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group"  >
+
+                    {{ form.Description.label(class="form-control-label") }}
+                    {% if form.Description.errors %}
+                        {{ form.Description(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.Description.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.Description(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group"  >
+
+                    {{ form.AssignedTo.label(class="form-control-label") }}
+                    {% if form.AssignedTo.errors %}
+                        {{ form.AssignedTo(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.AssignedTo.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.AssignedTo(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-check">
+                    {{ form.Status(class="form-check-input") }}
+                    {{ form.Status.label(class="form-check-label") }}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

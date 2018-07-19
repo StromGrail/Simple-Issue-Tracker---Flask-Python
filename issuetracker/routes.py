@@ -76,6 +76,7 @@ def postissue():
 
         if flag==True:
             print('debug 1',form.Status.data)
+            print('postissue')
             post = Post(title = form.Title.data, Description = form.Description.data, 
                 AssignedTo = form.AssignedTo.data , Createdby = userdetails.username, Status = form.Status.data)
             db.session.add(post)
@@ -103,10 +104,10 @@ def update_post(post_id):
     post=Post.query.get_or_404(post_id)
     #print(post.title,post.Description,post_id,post.id)
     form=PostIssueForm()
-    if form.validate_on_submit():
+    if request.method=='POST':
         post.title=form.Title.data
         post.Description=form.Description.data
-        post.Createdby=form.Createdby.data
+        post.Createdby=userdetails.username
         post.AssignedTo = form.AssignedTo.data
         db.session.commit()
         flash('Post updated! ', 'success')
@@ -116,7 +117,7 @@ def update_post(post_id):
         form.Description.data = post.Description
         form.Createdby.data = post.Createdby
         form.AssignedTo.data = post.AssignedTo
-        return render_template('issue.html',title=post.title,post=post,userdetails=userdetails,form=form)
+    return render_template('issue_update.html',title=post.title,post=post,userdetails=userdetails,form=form,post_id=post_id)
 
 @app.route("/post/<int:post_id>/delete", methods=['GET','POST'])
 def delete_post(post_id):
