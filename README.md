@@ -53,9 +53,9 @@ Ubuntu
 
 
 # Refrence 
-> http://flask.pocoo.org/docs/1.0/tutorial/
-> https://www.tutorialspoint.com/flask
-> https://hackr.io/tutorials/learn-flask
-> https://www.fullstackpython.com/flask.html
-> http://docs.sqlalchemy.org/en/latest/orm/tutorial.html
-> https://www.youtube.com/watch?v=ZVGwqnjOKjk
+1. > http://flask.pocoo.org/docs/1.0/tutorial/
+2. > https://www.tutorialspoint.com/flask
+3. > https://hackr.io/tutorials/learn-flask
+4. > https://www.fullstackpython.com/flask.html
+5. > http://docs.sqlalchemy.org/en/latest/orm/tutorial.html
+6. > https://www.youtube.com/watch?v=ZVGwqnjOKjk
