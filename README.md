@@ -42,8 +42,8 @@ Ubuntu
       b6. exit()
 
 4. To close the debug feature
-  a. open run.py
-  b. make 'debug=True' to 'debug=False' in app.run
+   a. open run.py
+   b. make 'debug=True' to 'debug=False' in app.run
   
 ```
 
