@@ -1,9 +1,11 @@
 from flask import render_template, url_for, flash, redirect,request
-from issuetracker import app, db
+from issuetracker import app, db, bcrypt
 from issuetracker.forms import RegistrationForm, LoginForm, PostIssueForm
 from issuetracker.models import User, Post
 
+# userdetails contains current user email
 userdetails = None
+usr_name=None
 
 @app.route("/")
 @app.route("/home")
@@ -21,29 +23,31 @@ def home():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    global userdetails
+    temp_userdetails=''
     form = RegistrationForm()
     if form.validate_on_submit():
         flash("Account created for {}!".format(form.username.data), 'success')
-        userdetails = form.username.data
-        user= User(FirstName=form.FirstName.data,LastName= form.LastName.data,username=form.username.data, email=form.email.data, password=form.password.data)
+        temp_userdetails = form.username.data
+        user= User(FirstName=form.FirstName.data,LastName= form.LastName.data,
+                username=form.username.data, email=form.email.data, 
+                password=bcrypt.generate_password_hash(form.password.data).decode('utf-8'))
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form,userdetails=userdetails)
+    return render_template('register.html', title='Register', form=form,userdetails=temp_userdetails)
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    global userdetails
+    global userdetails, usr_name
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.all()
         for u in user :
             if form.email.data == u.email:
-                if form.password.data == u.password:
+                if bcrypt.check_password_hash(u.password,form.password.data) :
                     userdetails = form.email.data
-                    print(userdetails)
+                    usr_name = u.username
                     flash('You have been logged in!', 'success')
                     return redirect(url_for('home'))
         else:
@@ -65,7 +69,6 @@ def postissue():
     if request.method == "POST" and userdetails!=None:
         user = User.query.all()
         flag,username ,checkname = False,'',form.AssignedTo.data 
-        print(checkname)
         for u in user:
             if u.email == userdetails.email:
                 username=u.username
@@ -75,10 +78,17 @@ def postissue():
                 flag=True
 
         if flag==True:
-            print('debug 1',form.Status.data)
-            print('postissue')
+            ('debug 1',form.Status.data)
+            ('postissue')
             post = Post(title = form.Title.data, Description = form.Description.data, 
                 AssignedTo = form.AssignedTo.data , Createdby = userdetails.username, Status = form.Status.data)
+            print("AssignedTo",form.AssignedTo.data)
+            user = User.query.all()
+            for u in user:
+                if u.username == form.AssignedTo.data:
+                    u.notification = u.notification+1
+                    print("user:- ",u.username,u.notification)
+                    break
             db.session.add(post)
             db.session.commit()
             flash('You post has been created !', 'success')
@@ -102,7 +112,7 @@ def post(post_id):
 @app.route("/post/<int:post_id>/update",methods=['GET' ,'Post'])
 def update_post(post_id):
     post=Post.query.get_or_404(post_id)
-    #print(post.title,post.Description,post_id,post.id)
+    #(post.title,post.Description,post_id,post.id)
     form=PostIssueForm()
     if request.method=='POST':
         post.title=form.Title.data
@@ -126,3 +136,23 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
+
+
+
+@app.route("/notification")
+def notification():
+    post = Post.query.all()
+    user = User.query.all()
+    for u in user:
+        if u.username == usr_name and u.notification==0:
+            return render_template('notification.html',text= " No issue assigned ! ",userdetails=userdetails)
+    '''print("___________________")
+                for p in post:
+                    print(p.AssignedTo,"  " , usr_name)
+                    if p.AssignedTo == usr_name:
+                        post_all=post_all + p
+                        print (post_all)'''
+    p=Post.query.filter(Post.AssignedTo==usr_name).all()
+    return render_template('notification.html',post=p,userdetails=userdetails)
+
+    

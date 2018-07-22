@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block content_1 %}          
+    {% if userdetails == None %}
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
+        </div>
+    {% else %}   
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
+        </div>
+        <div class="navbar-nav">
+            <ul class="dots">
+                    <li>
+                        <a href="/logout">
+                        <span class="glyphicon glyphicon-time"><mark style="top: 2px;text-align: center;">{{userdetails.notification}}</mark></span>
+                       </a>
+                    </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if post %}
+    {% for p in post %}
+	<issue class="media content-section">
+	    <div class="media-body">
+	        <p class="mr-2" >
+				<p>Title - {{p.title}}</p>
+				<p>Description - {{p.Description}}</br> Assigned by - 
+	           			{{ p.Createdby}}</br>posted on -{{p.date_posted}}</p>
+			</p>
+		</div>
+	</issue>
+    {% endfor %}
+    {% else %}
+    <issue class="media content-section">
+        <div class="media-body">
+            <p class="mr-2" >
+                <p>{{text}}</p>
+        </div>
+    </issue>
+        
+    {% endif %}
+
+{% endblock content %}
+

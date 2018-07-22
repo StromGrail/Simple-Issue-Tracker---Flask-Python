@@ -9,6 +9,15 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
         </div>
+        <div class="navbar-nav">
+            <ul class="dots">
+                    <li>
+                        <a href="/notification">
+                        <span class="glyphicon glyphicon-time"><mark style="top: 2px;text-align: center;">{{userdetails.notification}}</mark></span>
+                       </a>
+                    </li>
+            </ul>
+        </div>
     {% endif %}
 {% endblock %}
 {% block content %}

@@ -11,10 +11,11 @@ class User(db.Model):
     LastName = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    notification = db.Column(db.Integer,default=0)
     posts = db.relationship('Post',  lazy=True)
 
     def __repr__(self):
-        return "User('{}', '{}','{}')".format(self.username,self.email,self.AccessToken)
+        return "User('{}', '{}','{}','{}','{}')".format(self.username,self.email,self.AccessToken,self.password,self.notification)
 
 '''Title, Description, AssignedTo (User relation), 
 Createdby (User relation), Status (Open, Closed) '''

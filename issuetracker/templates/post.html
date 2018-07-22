@@ -10,6 +10,15 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/logout">Logout {{userdetails.FirstName}} </a>
         </div>
+        <div class="navbar-nav">
+            <ul class="dots">
+                    <li>
+                        <a href="/notification">
+                        <span class="glyphicon glyphicon-time"><mark style="top: 2px;text-align: center;">{{userdetails.notification}}</mark></span>
+                       </a>
+                    </li>
+            </ul>
+        </div>
     {% endif %}
 {% endblock %}
 
@@ -24,7 +33,24 @@
 			{% if userdetails != None %}
 			<small class="text-muted">
             		<a class="ml-2" href="{{url_for('update_post',post_id=post.id)}}">update</a>
-            		<a class="ml-2" href="{{url_for('delete_post',post_id=post.id)}}" >delete</a>
+            		<a class="button" href="#popup1" >delete</a>
+                        <div id="popup1" class="overlay">
+                            <div class="popup">
+                                <a class="close" href="#">&times;</a>
+                                Press delete to delete  the {{post.title}} post.
+                                <div class="content">
+                              <button onclick="myFunction()">delete</button>
+
+                        <p id="demo"></p>
+                                </div>
+                            </div>
+                        </div>
+<script>
+
+function myFunction() {
+  window.open("{{url_for('delete_post',post_id=post.id)}}","_self");
+}
+</script>
         		</small><br />
         	{% endif %}
 		</div>
@@ -32,3 +58,4 @@
 	</issue>
 
 {% endblock content %}
+
