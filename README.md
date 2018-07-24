@@ -12,24 +12,17 @@
 Ubuntu
 ```
 
-## Requirements
-```
-1. Python 3.X        ( http://ubuntuhandbook.org/index.php/2017/07/install-python-3-6-1-in-ubuntu-16-04-lts/ )    
-2. Flask             ( pip install flask )
-3. Flask-wtf         ( pip install flask-wtf )
-4. Flask SQLAlchemy  ( pip install flask-sqlalchemy )
-5. Flask Bcrypt      ( pip install flask-bcrypt )
-```
 
 
 # How to run
 
 ```
-1. open terminal and direct it to the locations where the Simple-Issue-Tracker---Flas-Python is present. 
+1. open terminal and direct it to the locations where the Simple-Issue-Tracker---Flas-Python is located. 
 
 2. Run the below command.
-      a. python run.py
-      b. go to http://127.0.0.1:5000/ 
+      a. pip3 install -r requirements.txt 
+      b. python run.py
+      c. go to http://127.0.0.1:5000/ 
       
 3. To create new database for the user
     a. follow the first step
